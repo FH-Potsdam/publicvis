@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<title>PublicVis</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<style>
+			* { line-height: 0; }
+
+			body,html,iframe{
+				border:0;
+				padding:0;
+				margin:0;
+				background-color:#000;
+				width:100%;
+				height:100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<iframe id="frame" src="http://{{IP}}:{{PORT}}/page/default"></iframe>
+		<script src="http://{{IP}}:{{PORT}}/socket.io/socket.io.js"></script>
+		<script src="http://{{IP}}:{{PORT}}/static/libs/jquery-1.11.1.js"></script>
+		<script>
+			var socket = io("http://{{IP}}:{{PORT}}");
+				socket.emit('register', 'frame');
+			
+			function debouncer( func , timeout ) {
+				var timeoutID , timeout = timeout || 200;
+				return function () {
+					var scope = this , args = arguments;
+					clearTimeout( timeoutID );
+					timeoutID = setTimeout( function () {
+						func.apply( scope , Array.prototype.slice.call( args ) );
+					} , timeout );
+				};
+			}
+
+			function resize(){
+				socket.emit('size', [window.innerWidth, window.innerHeight]);
+			}
+
+			$(function() {
+				$(window).resize(debouncer(resize));
+				resize();
+
+				socket.on('updateDisplay', function(msg){
+					$('#frame').css({
+						width:msg.width+'px',
+						height:msg.height+'px',
+						"margin-left":msg.offset.x+'px',
+						"margin-top":msg.offset.y+'px'
+					});
+				});
+			});
+
+		</script>
+	</body>
+</html>

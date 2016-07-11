@@ -1,0 +1,22 @@
+{
+	"name": "complex",
+	"version": "0.0.1",
+	"description":"A complex example using D3 and a Socket.io connector for events.",
+	"socket":{
+		"get":{
+			"get-event":{}
+		,
+		"send":{
+			"set-event":{
+				"x":"number",
+				"y":"number"
+			}
+		}
+	},
+	"startup": [
+		{
+			"type":"terminal",
+			"value":"postgres"
+		}
+	]
+}

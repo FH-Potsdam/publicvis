@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Simple D3 | PublicVis</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<style>
+			* { line-height: 0; }
+
+			body,html{
+				border:0;
+				padding:0;
+				margin:0;
+				background-color:#000;
+				width:100%;
+				height:100%;
+				overflow: hidden;
+			}
+
+			svg{
+				width:100%;
+				height:100%;
+				background-color:#fff;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="./libs/d3.v3.min.js"></script>
+		<script>
+
+			var bb = d3.select('body').node().getBoundingClientRect(),
+				margin = 50;
+
+			var svg = d3.select('body').append('svg')
+				.attr('width', bb.width)
+				.attr('height', bb.height);
+
+			var circle_count = 200;
+
+			for(var i = 0; i<200; i++){
+				svg.append('circle')
+					.attr("cx", (margin+Math.random()*(bb.width-margin*2)))
+					.attr("cy", (margin+Math.random()*(bb.height-margin*2)))
+					.attr("r",  (3+Math.random()*5))
+					.attr("fill", 'rgba(0,0,0,'+(i/circle_count)+')');
+			}
+		</script>
+	</body>
+</html>

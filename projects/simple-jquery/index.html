@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Simple jQuery | PublicVis</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<style>
+			* { line-height: 0; }
+
+			body,html{
+				border:0;
+				padding:0;
+				margin:0;
+				background-color:#000;
+				width:100%;
+				height:100%;
+				overflow: hidden;
+			}
+
+			svg{
+				width:100%;
+				height:100%;
+				background-color:#fff;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="./libs/jquery-1.11.1.js"></script>
+		<script>
+			$(function() {
+				var width = window.innerWidth,
+					height = window.innerHeight,
+					margin = 20;
+
+				var svg = '<svg width="'+width+'" height="'+height+'">';
+				
+				var circle_count = 200;
+				for(var i = 0; i<circle_count; i++){
+					svg += '<circle fill="rgba(0,0,0,'+(i/circle_count)+')" cx="'+(margin+Math.random()*(width-margin*2))+'" cy="'+(margin+Math.random()*(height-margin*2))+'" r="'+(3+Math.random()*5)+'" />';
+				}
+
+				$('body').append(svg+'</svg>');
+			});
+		</script>
+	</body>
+</html>

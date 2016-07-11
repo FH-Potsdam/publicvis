@@ -51,9 +51,19 @@ Next, we will fire up the main components using terminal commands
 
 ### Web-Server
 
+Instead of using some custom terminal thingy. We are using MAMP, because we are lazy.
+//Alternative: sudo launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist
+//http://macs.about.com/od/usingyourmac/ss/Automate-Opening-Multiple-Applications-And-Folders.htm#step2
+//https://discussions.apple.com/thread/2035098?start=0&tstart=0
+//https://www.raywenderlich.com/58986/automator-for-mac-tutorial-and-examples
+//http://radarearth.com/content/automate-terminal-automator
+
 ### Tile-Server
 
 ### MySQL Database
+
+MAMP takes care of this
+//(if installed via port) sudo port load mysql5-server
 
 ### Postgres Database
 
@@ -85,3 +95,25 @@ We will give all those components some time to start, it will probably be trick 
 ## Launch Browser and website
 
 Launching the browser in full screen mode and opening the framework's main page, the page will then display the default visualization, which displays the URL that external devices can use to fire up the controller interface.
+
+
+
+
+## Installing components - First Time Use
+
+MySQL
+- http://www.sequelpro.com/docs/Install_MySQL_on_your_Mac
+
+Node
+Install Node
+
+TileServer
+- Packages
+- http://osm2vectortiles.org/
+- http://osm2vectortiles.org/docs/create-map-with-mapbox-studio-classic/
+
+SocketIO
+- http://socket.io/
+
+PostgreSQL
+
