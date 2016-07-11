@@ -37,6 +37,9 @@
 				<input type="button" id="display-update" value="Update Display" />
 			</div>
 		</div>
+		<div id="projects">
+			<ul></ul>
+		</div>
 		<script src="http://{{IP}}:{{PORT}}/socket.io/socket.io.js"></script>
 		<script src="http://{{IP}}:{{PORT}}/static/libs/jquery-1.11.1.js"></script>
 		<script>
@@ -52,6 +55,17 @@
 					if($('#display-y').val() !== ""){ obj.offset.y = $('#display-y').val();}
 					socket.emit('setDisplay', obj);
 				});
+
+				$.getJSON( "http://{{IP}}:{{PORT}}/getProjects", function( data ) {
+					for(var i in data){
+						$('#projects ul').append('<li><h2>'+i+'</h2><a class="button-open-project" data-id="'+i+'">Open Project</a></li>');
+					}
+					$('.button-open-project').on('click', function(){
+						var id = $(this).data('id');
+						socket.emit('setProject', id);
+					});
+				});
+				
 			});
 
 			socket.on('updateScreen', function(msg){

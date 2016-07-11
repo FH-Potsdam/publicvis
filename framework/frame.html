@@ -53,6 +53,10 @@
 						"margin-top":msg.offset.y+'px'
 					});
 				});
+
+				socket.on('openProject', function(msg){
+					$('#frame').attr("src", "http://{{IP}}:8888/publicvis@github/projects/"+msg+"/index.html");
+				});
 			});
 
 		</script>

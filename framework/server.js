@@ -1,18 +1,45 @@
 var express = require('express'),
 	app = express(),
 	fs = require('fs'),
+	path = require('path'),
 	http = require('http').Server(app),
 	io = require('socket.io')(http);
 
-var ip = null, port = 3000, width, height, user_id = 0, display = {width:false, height:false, offset:{x:false,y:false}};
+var ip = null, port = 3000, width, height, user_id = 0, display = {width:false, height:false, offset:{x:false,y:false}}, projects = {};
 
 //Lookup the current ip
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 	ip = add;
 
+	//Get data on all projects
+	var project_path = '../projects/';
+	var folders = fs.readdirSync(project_path).filter(function(file) {
+		return fs.statSync(path.join(project_path, file)).isDirectory();
+	});
+
+	for(var i in folders){
+		try {
+			var package_json = JSON.parse(fs.readFileSync('../projects/'+folders[i]+'/package.json', 'utf8'));
+			projects[folders[i]] = package_json;
+		} catch (e) {
+			console.log('package.json not found in', folders[i]);
+		}
+	}
+
+	//Setup allow origin
+	app.use(function(req, res, next) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		next();
+	});
+
 	//General calls just let us know if the server is running
 	app.get('/', function(req, res){
 		res.send('server is running');
+	});
+
+	app.get('/getProjects', function(req, res){
+		res.send(JSON.stringify(projects));
 	});
 
 	//Simply delivering html templates, {{IP}} and {{PORT}} are replaced with current ip and port
@@ -59,7 +86,11 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 			if("y" in msg.offset){display.offset.y = msg.offset.y;}
 
 			io.emit('updateDisplay', display);
-		});		
+		});
+
+		socket.on('setProject', function(msg){
+			io.emit('openProject', msg);
+		});
 
 	});
 
